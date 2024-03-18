@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_blue_test/features/blue/blocs/scan_result/scan_result_cubit.dart';
 import 'package:flutter_blue_test/features/blue/repositories/blue_repository.dart';
+import 'package:flutter_blue_test/features/blue/widgets/device_details_bottom_sheet.dart';
 
 enum ConnectionState { connected, disconnected, connecting }
 
@@ -22,7 +23,17 @@ class ScanResultListItem extends StatelessWidget {
       child: BlocBuilder<ScanResultCubit, ScanResultState>(
         builder: (context, state) {
           return ListTile(
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet<void>(
+                context: ctx,
+                builder: (ctx) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<ScanResultCubit>(context),
+                    child: DeviceDetailsBottomSheet(scanResult),
+                  );
+                },
+              );
+            },
             leading: const Icon(Icons.bluetooth),
             title: Text(
               scanResult.device.platformName.isNotEmpty
