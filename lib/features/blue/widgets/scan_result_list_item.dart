@@ -16,19 +16,19 @@ class ScanResultListItem extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ScanResultCubit(context.read<BlueRepository>())
         ..init(scanResult.device),
       child: BlocBuilder<ScanResultCubit, ScanResultState>(
-        builder: (context, state) {
+        builder: (blocContext, state) {
           return ListTile(
             onTap: () {
               showModalBottomSheet<void>(
-                context: ctx,
-                builder: (ctx) {
+                context: context,
+                builder: (context) {
                   return BlocProvider.value(
-                    value: BlocProvider.of<ScanResultCubit>(context),
+                    value: BlocProvider.of<ScanResultCubit>(blocContext),
                     child: DeviceDetailsBottomSheet(scanResult),
                   );
                 },
@@ -47,7 +47,7 @@ class ScanResultListItem extends StatelessWidget {
             trailing: scanResult.advertisementData.connectable
                 ? ElevatedButton(
                     onPressed: () =>
-                        context.read<ScanResultCubit>().toggleConnection(
+                        blocContext.read<ScanResultCubit>().toggleConnection(
                       scanResult.device,
                       onTimeout: () {
                         ScaffoldMessenger.of(context).showSnackBar(
