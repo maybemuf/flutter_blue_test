@@ -26,13 +26,12 @@ class HomeScreen extends StatelessWidget {
                 ].map((e) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: e,
-                )),
+                ),),
                 const Divider(),
                 Expanded(
                   child: ListView.builder(
                     key: const PageStorageKey('scanResults'),
                     itemCount: state.scanResults.length,
-                    addAutomaticKeepAlives: true,
                     itemBuilder: (context, index) {
                       final result = state.scanResults[index];
                       return ScanResultListItem(
